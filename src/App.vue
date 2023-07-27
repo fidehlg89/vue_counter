@@ -4,13 +4,20 @@
 
     <div :class="classCounter">{{ counter }}</div>
 
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <button @click="reset" :disabled="counter === 0">Reset</button>
-    <button @click="addFavorite" :disabled="blockIsAdded">Add Favorite</button>
+    <div class="btn-action">
+      <button @click="increment">Increment</button>
+      <button @click="decrement">Decrement</button>
+      <button @click="reset" :disabled="counter === 0">Reset</button>
+      <button @click="addFavorite" :disabled="blockIsAdded">
+        Add Favorite
+      </button>
+    </div>
 
+    <label for="">{{ favorites.length > 0 ? "Favorite List" : "" }}</label>
     <ul>
-      <li v-for="(value, i) in favorites" :key="i">{{ value }}</li>
+      <li v-for="(value, i) in favorites" :key="i">
+        {{ value }}
+      </li>
     </ul>
   </div>
 </template>
@@ -41,7 +48,7 @@ const decrement = () => {
 
 const reset = () => {
   counter.value = 0;
-  favorites.value = []
+  favorites.value = [];
 };
 
 const classCounter = computed(() => {
@@ -71,8 +78,15 @@ const classCounter = computed(() => {
   color: orange;
 }
 
-ul{
+ul {
   list-style: none;
-  padding: 0
+  padding: 0;
+}
+li {
+  background: #ccc;
+}
+
+.btn-action {
+  margin-top: 4px;
 }
 </style>
