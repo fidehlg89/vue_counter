@@ -1,17 +1,55 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app">
+    <h2>Vue 3 Counter</h2>
+
+    <div :class="classCounter">{{ counter }}</div>
+
+    <button @click="increment">Increment</button>
+    <button @click="decrement">Decrement</button>
+    <button @click="reset" :disabled="counter === 0">Reset</button>
+    <button @click="addFavorite" :disabled="blockIsAdded">Add Favorite</button>
+
+    <ul>
+      <li v-for="(value, i) in favorites" :key="i">{{ value }}</li>
+    </ul>
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import { ref, computed } from "vue";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+const counter = ref(0);
+
+const favorites = ref([]);
+
+const addFavorite = () => {
+  favorites.value.push(counter.value);
+};
+
+const blockIsAdded = computed(() => {
+  const numberSearch = favorites.value.find((item) => item === counter.value);
+  return numberSearch || numberSearch === 0;
+});
+
+const increment = () => {
+  counter.value++;
+};
+
+const decrement = () => {
+  counter.value--;
+};
+
+const reset = () => {
+  counter.value = 0;
+  favorites.value = []
+};
+
+const classCounter = computed(() => {
+  if (counter.value === 0) {
+    return "zero";
   }
-}
+  return counter.value > 0 ? "positive" : "negative";
+});
 </script>
 
 <style>
@@ -22,5 +60,19 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.negative {
+  color: red;
+}
+.positive {
+  color: green;
+}
+.zero {
+  color: orange;
+}
+
+ul{
+  list-style: none;
+  padding: 0
 }
 </style>
